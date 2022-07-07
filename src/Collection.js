@@ -1,6 +1,7 @@
 export default class Collection {
     constructor() {
         this.collection = [];
+        this.filterStr  = '';
     }
 
     add(item) {
@@ -26,7 +27,11 @@ export default class Collection {
         return this.collection < 1
     }
 
-    search(regex) {
-        return this.collection.filter(element => element.label.match(regex));
+    filter(filterStr) {
+        this.filterStr = filterStr;
+    }
+
+    filteredItems() {
+        return this.collection.filter(item => item.match(this.filterStr));
     }
 }

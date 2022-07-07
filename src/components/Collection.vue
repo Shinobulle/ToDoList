@@ -3,12 +3,12 @@
     <h2>Task</h2>
     <input v-model="name" type="text" placeholder="Ajouter une tâche" @keyup.enter="addTask()" />
     <p>{{ error }}</p>
-    <input v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="research()">
+    <input v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="setSearch()">
   </div>
   <div>
     <ul class="list-disc">
       <li v-if="collection.empty()">Pas de tâche encore défini</li>
-      <li v-else  v-for="task in research()" :key="task.id">
+      <li v-else  v-for="task in collection.filteredItems()" :key="task.id">
         <div class="tache">
           <Item :item="task" @remove="collection.remove(task)" @toggle:done="task.markAsDone(!task.done)"/>
         </div>
@@ -48,9 +48,8 @@ export default {
         this.error = "Erreur: "+e.message;
       }
     },
-    research() {
-      const regex = new RegExp("\\w*" + this.search, 'g');
-      return this.collection.search(regex);
+    setSearch(){
+      this.collection.filter(this.search);
     }
   },
   computed: {

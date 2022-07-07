@@ -27,4 +27,9 @@ export default class Task {
     const label2 = taskToCompare.label.toUpperCase();
     return label1 == label2 ? 0 : (label1 > label2 ? 1 : -1);
   }
+
+  match(filterStr) {
+    const regex = new RegExp("\\w*" + filterStr, 'g');
+    return this.label.match(regex);
+  }
 }
