@@ -1,17 +1,16 @@
 <template>
   <div class="hello">
     <h2>Task</h2>
-    <input v-model="name" type="text" placeholder="Ajouter un tâche" @keyup.enter="addTask()" />
-    <!-- <button @click="add">Valider</button> -->
-    <!-- <button @click="sort">Trier</button> -->
+    <input v-model="name" type="text" placeholder="Ajouter une tâche" @keyup.enter="addTask()" />
+    <p>{{ error }}</p>
+    <input v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="research()">
   </div>
   <div>
     <ul class="list-disc">
-      <li v-if="collection.empty()">Pas de tache encore défini</li>
-      <li v-else  v-for="tasks in collection.sort()" :key="tasks.id">
-        <div>
-          <Item :item="tasks" :identifiant="tasks.id"/>
-          <button @click="collection.remove(tasks)">Supprimer</button>
+      <li v-if="collection.empty()">Pas de tâche encore défini</li>
+      <li v-else  v-for="task in research()" :key="task.id">
+        <div class="tache">
+          <Item :item="task" @remove="collection.remove(task)" @toggle:done="task.markAsDone(!task.done)"/>
         </div>
       </li>
     </ul>
@@ -22,7 +21,7 @@
 <script>
 import Item from './Item';
 import CollectionClass from '@/Collection';
-// import Task from '@/Task';
+import Task from '@/Task';
 export default {
   name: 'CollectionPage',
   components: {
@@ -31,16 +30,27 @@ export default {
   data() {
     return {
       collection: new CollectionClass(),
-      item: '',
-      name: ''
+      name: '',
+      error: '',
+      search: ''
     }
   },
   props: {
   },
   methods: {
-    addTask(){
-      this.collection.add(this.name);
-      this.name ='';
+    addTask(){ // faire un try catch
+      try{
+        let item = new Task(this.name)
+        this.collection.add(item);
+        this.name ='';
+        this.error='';
+      }catch(e){
+        this.error = "Erreur: "+e.message;
+      }
+    },
+    research() {
+      const regex = new RegExp("\\w*" + this.search, 'g');
+      return this.collection.search(regex);
     }
   },
   computed: {
@@ -64,4 +74,15 @@ li {
 a {
   color: #42b983;
 }
+.tache{
+  background-color: rgba(235, 238, 235, 0.87);
+  margin: auto;
+  margin-bottom: 10px;
+  width: fit-content;
+  border: 2px solid;
+  border-radius: 4px 4px 4px 4px;
+  padding: 10px;
+}
+
+
 </style>

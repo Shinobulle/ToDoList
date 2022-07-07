@@ -1,17 +1,12 @@
-import Task from "./Task";
-
 export default class Collection {
     constructor() {
         this.collection = [];
     }
 
-    add(name) {
-        const item = this.createItem(name);
+    add(item) {
         const nextId = this.collection.length;
         item.setId(nextId);
         this.collection.push(item);
-        this.collection.sort();
-        return this.name = '';
     }
 
     sort() {
@@ -31,9 +26,7 @@ export default class Collection {
         return this.collection < 1
     }
 
-    createItem(name){
-        const item = new Task(name);
-        return item;
+    search(regex) {
+        return this.collection.filter(element => element.label.match(regex));
     }
-
 }

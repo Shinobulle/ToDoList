@@ -1,12 +1,13 @@
 export default class Task {
   constructor(label, isDone = false, id = null) {
+    if (label == "") throw new Error('Vous devez entrer le nom de la tâche !');
     this.label = label;
     this.done  = isDone;
     this.id    = id;
   }
 
-  markAsDone() {
-    this.done = true;
+  markAsDone(isDone = true) {
+    this.done = isDone;
   }
 
   rename(name) {

@@ -1,7 +1,7 @@
 <template>
-  <input type="checkbox" v-model="task.done"  @click="task.markAsDone()" />
-  <label class="" :class="task.done ? 'neutre' : 'test'">{{ task.label }}</label>
-  <!-- <label>{{ task.done }}</label> -->
+  <input type="checkbox" v-model="isDone"  @click="task.markAsDone()" />
+  <label class="" :class="item.done ? 'neutre' : 'test'">{{ item.label }}</label>
+  <button class="supprimer" @click="$emit('remove')">Supprimer</button>
 </template>
 
 <script>
@@ -13,29 +13,15 @@ export default {
     item: Task,
     identifiant: Number
   },
-  data (){
-    return{
-      task: new Task(this.item.label, this.item.done, this.item.id),
+  computed: {
+    isDone: {
+      get() {
+        return this.item.done;
+      },
+    set() {
+      this.$emit('toggle:done')
     }
-  },
-  methods: {
-    markAsDone() {
-        this.done = true;
-    },
-    rename(name) {
-        this.label = name;
-    },
-    setId(id) {
-        this.id = id;
-    },
-    getId() {
-        return this.id;
-    },
-    compare(taskToCompare) {
-        const label1 = this.label.toUpperCase();
-        const label2 = taskToCompare.label.toUpperCase();
-        return label1 == label2 ? 0 : (label1 > label2 ? 1 : -1);
-    },
+    }
   }
 }
 </script>
@@ -58,5 +44,9 @@ a {
 }
 .neutre{
   text-decoration: line-through;
+}
+
+.supprimer{
+  margin-left: 10px;
 }
 </style>
