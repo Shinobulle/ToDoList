@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <Collection msg="Todo list"/>
+  <to-do-list msg="ToDo list"/>
 </template>
 
 <script>
-import Collection from '@/components/Collection.vue'
+import ToDoList from '@/pages/ToDoList.vue'
 
 export default {
   name: 'App',
   components: {
-    Collection
+    ToDoList
   }
 }
 </script>

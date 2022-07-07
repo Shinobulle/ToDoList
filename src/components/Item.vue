@@ -1,12 +1,41 @@
 <template>
-    <h1>test</h1>
+  <input type="checkbox" v-model="task.done"  @click="task.markAsDone()" />
+  <label class="" :class="task.done ? 'neutre' : 'test'">{{ task.label }}</label>
+  <!-- <label>{{ task.done }}</label> -->
 </template>
 
 <script>
+import Task from '@/Task';
+
 export default {
   name: 'ItemPage',
   props: {
-    msg: String
+    item: Task,
+    identifiant: Number
+  },
+  data (){
+    return{
+      task: new Task(this.item.label, this.item.done, this.item.id),
+    }
+  },
+  methods: {
+    markAsDone() {
+        this.done = true;
+    },
+    rename(name) {
+        this.label = name;
+    },
+    setId(id) {
+        this.id = id;
+    },
+    getId() {
+        return this.id;
+    },
+    compare(taskToCompare) {
+        const label1 = this.label.toUpperCase();
+        const label2 = taskToCompare.label.toUpperCase();
+        return label1 == label2 ? 0 : (label1 > label2 ? 1 : -1);
+    },
   }
 }
 </script>
@@ -26,5 +55,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.neutre{
+  text-decoration: line-through;
 }
 </style>

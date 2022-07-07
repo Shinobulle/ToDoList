@@ -1,14 +1,49 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h2>Task</h2>
+    <input v-model="name" type="text" placeholder="Ajouter un tâche" @keyup.enter="addTask()" />
+    <!-- <button @click="add">Valider</button> -->
+    <!-- <button @click="sort">Trier</button> -->
   </div>
+  <div>
+    <ul class="list-disc">
+      <li v-if="collection.empty()">Pas de tache encore défini</li>
+      <li v-else  v-for="tasks in collection.sort()" :key="tasks.id">
+        <div>
+          <Item :item="tasks" :identifiant="tasks.id"/>
+          <button @click="collection.remove(tasks)">Supprimer</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
 </template>
 
 <script>
+import Item from './Item';
+import CollectionClass from '@/Collection';
+// import Task from '@/Task';
 export default {
   name: 'CollectionPage',
+  components: {
+    Item
+  },
+  data() {
+    return {
+      collection: new CollectionClass(),
+      item: '',
+      name: ''
+    }
+  },
   props: {
-    msg: String
+  },
+  methods: {
+    addTask(){
+      this.collection.add(this.name);
+      this.name ='';
+    }
+  },
+  computed: {
   }
 }
 </script>
@@ -23,7 +58,7 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
 a {
