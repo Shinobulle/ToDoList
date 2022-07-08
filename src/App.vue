@@ -1,6 +1,7 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <to-do-list msg="ToDo list"/>
+  <div>
+    <to-do-list msg="ToDo list"/>
+  </div>
 </template>
 
 <script>

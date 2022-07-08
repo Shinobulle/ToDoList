@@ -1,17 +1,29 @@
 <template>
-  <div class="hello">
-    <h2>Task</h2>
-    <input v-model="name" type="text" placeholder="Ajouter une tâche" @keyup.enter="addTask()" />
-    <p>{{ error }}</p>
-    <input v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="setSearch()">
-    <input type="button" value="save" @click="save()">
-    <!-- <input type="button" value="load" @click="load()"> -->
+  <div class="grid grid-cols-2 gap-4 col-span-3">
+    <input class="
+    col-span-1
+    ml-2
+    rounded-md border-gray-300 border-2 hover:border-gray-500
+    text-center
+    bg-gray-50 hover:bg-white" v-model="name" type="text" placeholder="Ajouter une tâche" @keyup.enter="addTask()" />
+    <input class="
+    col-span-1
+    mr-2
+    rounded-md border-gray-300 border-2 hover:border-gray-500
+    text-center
+    bg-gray-50 hover:bg-white" v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="setSearch()">
+    <p class="col-span-2" :class="error != '' ? 'visible': 'invisible' ">{{ error }}</p>
   </div>
-  <div>
-    <ul class="list-disc">
-      <li v-if="collection.empty()">Pas de tâche encore défini</li>
-      <li v-else  v-for="task in collection.filteredItems()" :key="task.id">
-        <div class="tache">
+  <div class="grid grid-cols-1 gap-4 col-span-3 mb-4 mt-4">
+    <ul class="">
+      <li v-if="collection.empty()" class="text-lg antialiased font-semibold">Pas de tâche encore défini</li>
+      <li v-else v-for="task in collection.filteredItems()" :key="task.id">
+        <div class="mt-3 m-auto
+                    border-2 border-gray-400 rounded-lg hover:border-gray-500
+                    bg-gray-100 hover:bg-gray-50
+                    w-5/6
+                    shadow-md hover:shadow-xl
+                    grid grid-cols-4 gap-2 content-center">
           <Item :item="task" @remove="collection.remove(task)" @toggle:done="task.markAsDone(!task.done)"/>
         </div>
       </li>
@@ -40,9 +52,10 @@ export default {
   props: {
   },
   methods: {
-    addTask(){ // faire un try catch
+    addTask(){
       try{
         let item = new Task(this.name)
+        console.log(item)
         this.collection.add(item);
         this.name ='';
         this.error='';
@@ -81,31 +94,3 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.tache{
-  background-color: rgba(235, 238, 235, 0.87);
-  margin: auto;
-  margin-bottom: 10px;
-  width: fit-content;
-  border: 2px solid;
-  border-radius: 4px 4px 4px 4px;
-  padding: 10px;
-}
-
-
-</style>

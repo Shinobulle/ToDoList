@@ -1,7 +1,9 @@
 <template>
-  <input type="checkbox" v-model="isDone"  @click="task.markAsDone()" />
-  <label class="" :class="item.done ? 'neutre' : 'test'">{{ item.label }}</label>
-  <button class="supprimer" @click="$emit('remove')">Supprimer</button>
+  <input class="col-span-1  place-self-center" type="checkbox" v-model="isDone"  @click="task.markAsDone()" />
+  <label class="col-span-2
+                text-lg antialiased font-semibold
+                tracking-wide" :class="item.done ? 'line-through decoration-2' : 'no-underline'">{{ item.label }}</label>
+  <button class="col-span-1 w-5 place-self-center" @click="$emit('remove')"><img src="@/assets/Trash.svg" alt=""></button>
 </template>
 
 <script>
@@ -25,28 +27,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.neutre{
-  text-decoration: line-through;
-}
-
-.supprimer{
-  margin-left: 10px;
-}
-</style>

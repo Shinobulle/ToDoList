@@ -1,6 +1,11 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <div class="grid grid-cols-3
+  content-center
+  border-2 border-gray-300 rounded-lg
+  bg-gray-200 shadow-xl
+  w-4/6
+  m-auto">
+    <h1 class="col-span-3 mb-3 text-2xl font-bold underline">{{ msg }}</h1>
     <Collection />
   </div>
 </template>
