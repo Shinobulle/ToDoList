@@ -29,7 +29,7 @@ export default class Task {
   }
 
   match(filterStr) {
-    const regex = new RegExp("\\w*" + filterStr, 'g');
-    return this.label.match(regex);
+    const regex = new RegExp("[A-Za-z]*(" + ((filterStr.normalize("NFD")).toLowerCase()).replaceAll(' ', '|') + ")"  , 'g');
+    return ((this.label.normalize("NFD")).toLowerCase()).match(regex);
   }
 }

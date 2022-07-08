@@ -36,4 +36,11 @@ li {
 a {
   color: #42b983;
 }
+.hello{
+  background-color: rgba(224, 224, 224, 0.829);
+  margin: auto;
+  width: 50rem;
+  padding: 1rem;
+  border-radius: 10px 10px 10px 10px;
+}
 </style>

@@ -4,6 +4,8 @@
     <input v-model="name" type="text" placeholder="Ajouter une tâche" @keyup.enter="addTask()" />
     <p>{{ error }}</p>
     <input v-model="search" type="text" placeholder="Rechercher une tâche" @keyup="setSearch()">
+    <input type="button" value="save" @click="save()">
+    <!-- <input type="button" value="load" @click="load()"> -->
   </div>
   <div>
     <ul class="list-disc">
@@ -50,9 +52,31 @@ export default {
     },
     setSearch(){
       this.collection.filter(this.search);
+    },
+    save() {
+      const parsed = JSON.stringify(this.collection.collection);
+      localStorage.setItem('collection', parsed);
+    },
+    load() {
+      const collection = JSON.parse(localStorage.getItem('collection'));
+      collection.forEach(item => {
+        const task = new Task(item.label, item.done);
+        this.collection.add(task);
+      });
+      return this.collection;
     }
   },
-  computed: {
+  mounted() {
+    if (localStorage.getItem('collection')){
+      try{
+        this.load();
+      }catch(e){
+        localStorage.removeItem('collection');
+      }
+    }
+  },
+  updated() {
+    this.save();
   }
 }
 </script>
