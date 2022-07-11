@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .input{
+        @apply col-span-1;
+        @apply ml-2;
+        @apply rounded-md border-gray-300 border-2 hover:border-gray-500;
+        @apply text-center;
+        @apply bg-gray-50 hover:bg-white;
+    }
+    .task{
+        @apply mt-3 m-auto;
+        @apply border-2 border-gray-400 rounded-lg hover:border-gray-500;
+        @apply bg-gray-100 hover:bg-gray-50;
+        @apply w-5/6;
+        @apply shadow-md hover:shadow-xl;
+        @apply grid grid-cols-4 gap-2 content-center;
+    }
+}
