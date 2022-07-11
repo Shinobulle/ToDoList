@@ -1,7 +1,7 @@
 import StorageInterface from "./StorageInterface";
 
 export default class StorageLocal extends StorageInterface {
-    save(data, id) {
+    save(id, data) {
         localStorage.setItem(id, JSON.stringify(data));
     }
 
