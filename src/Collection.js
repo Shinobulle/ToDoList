@@ -1,13 +1,24 @@
-export default class Collection {
-    constructor() {
+import Task from "./Task";
+
+export default class CollectionTask {
+    constructor(persistenceEngine) {
         this.collection = [];
         this.filterStr  = '';
+        this.persistenceEngine = persistenceEngine;
+        this.persistenceId = 'collection';
+        this.load();
+    }
+
+    create(label, isDone = false, id = null){
+        const task = new Task(label, isDone, id );
+        this.add(task);
     }
 
     add(item) {
         const nextId = this.collection.length;
         item.setId(nextId);
         this.collection.push(item);
+        this.save();
     }
 
     sort() {
@@ -17,6 +28,7 @@ export default class Collection {
     remove(item) {
         const indexToRemove = this.findIndex(item);
         this.collection.splice(indexToRemove, 1);
+        this.save();
     }
 
     findIndex(item) {
@@ -33,5 +45,17 @@ export default class Collection {
 
     filteredItems() {
         return this.collection.filter(item => item.match(this.filterStr));
+    }
+
+    save() {
+        this.persistenceEngine.save(this.persistenceId, this.collection);
+    }
+
+    load() {
+        const rawTasks = this.persistenceEngine.load(this.persistenceId);
+        this.collection = [];
+        rawTasks.forEach(rawTask => {
+            this.create(rawTask.label, rawTask.done, rawTask.id);
+        });
     }
 }

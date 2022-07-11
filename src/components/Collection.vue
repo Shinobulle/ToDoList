@@ -35,7 +35,9 @@
 <script>
 import Item from './Item';
 import CollectionClass from '@/Collection';
-import Task from '@/Task';
+import StorageLocal from '@/StorageLocal';
+const storageEngine = new StorageLocal();
+const collection = new CollectionClass(storageEngine);
 export default {
   name: 'CollectionPage',
   components: {
@@ -43,20 +45,16 @@ export default {
   },
   data() {
     return {
-      collection: new CollectionClass(),
+      collection,
       name: '',
       error: '',
-      search: ''
+      search: '',
     }
-  },
-  props: {
   },
   methods: {
     addTask(){
       try{
-        let item = new Task(this.name)
-        console.log(item)
-        this.collection.add(item);
+        this.collection.create(this.name);
         this.name ='';
         this.error='';
       }catch(e){
@@ -66,31 +64,7 @@ export default {
     setSearch(){
       this.collection.filter(this.search);
     },
-    save() {
-      const parsed = JSON.stringify(this.collection.collection);
-      localStorage.setItem('collection', parsed);
-    },
-    load() {
-      const collection = JSON.parse(localStorage.getItem('collection'));
-      collection.forEach(item => {
-        const task = new Task(item.label, item.done);
-        this.collection.add(task);
-      });
-      return this.collection;
-    }
   },
-  mounted() {
-    if (localStorage.getItem('collection')){
-      try{
-        this.load();
-      }catch(e){
-        localStorage.removeItem('collection');
-      }
-    }
-  },
-  updated() {
-    this.save();
-  }
 }
 </script>
 
