@@ -53,6 +53,7 @@ export default class CollectionTask {
 
     load() {
         const rawTasks = this.persistenceEngine.load(this.persistenceId);
+        if (rawTasks == null) return this.collection;
         this.collection = [];
         rawTasks.forEach(rawTask => {
             this.create(rawTask.label, rawTask.done, rawTask.id);
