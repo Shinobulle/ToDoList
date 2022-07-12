@@ -17,9 +17,14 @@
 
 </template>
 
+<script setup>
+import { useCollectionStore } from '@/stores/CollectionStore';
+const collection = useCollectionStore();
+collection.load();
+</script>
+
 <script>
 import Item from './Item';
-import { useCollectionStore } from '@/stores/CollectionStore';
 
 export default {
   name: 'CollectionPage',
@@ -28,7 +33,6 @@ export default {
   },
   data() {
     return {
-      collection: useCollectionStore(),
       error: '',
       name: '',
       search: ''
@@ -47,9 +51,6 @@ export default {
         setSearch(){
             this.collection.filter(this.search);
         },
-  },
-  mounted() {
-    this.collection.load();
   }
 }
 </script>
